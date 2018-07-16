@@ -14,7 +14,8 @@ class App extends Component {
     this.state = {
       searchTerm: '',
       result: [],
-      page: 0
+      page: 0,
+      isAtEnd: false
     }
 
     this.onSearchChange = this.onSearchChange.bind(this)
@@ -41,8 +42,8 @@ class App extends Component {
     })
   }
 
-  setSearchNewsResult(result, page) {
-    this.setState({ result: this.state.result.concat(result), page })
+  setSearchNewsResult(result, page, isAtEnd) {
+    this.setState({ result: this.state.result.concat(result), page, isAtEnd })
   }
 
   handleHackerNewsFetch() {
@@ -50,7 +51,7 @@ class App extends Component {
     if (searchTerm && searchTerm.length > 0) {
       axios.get(`${HACKERNEWS_API_PATH}/search?query=${searchTerm}&page=${page}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
       .then(res => {
-        this.setSearchNewsResult(res.data.hits, ++page)
+        this.setSearchNewsResult(res.data.hits, ++page, res.data.nbPages <= 0)
       })
       .catch(error => {
         console.log(error.response)
@@ -61,7 +62,7 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm, result } = this.state
+    const { searchTerm, result, isAtEnd } = this.state
 
     return (
       <div className="page">
@@ -79,6 +80,7 @@ class App extends Component {
               <Table
                 list={result}
                 onBottomVisible={this.handleHackerNewsFetch}
+                isAtEnd={isAtEnd}
                 onDismiss={this.onDismiss} />
               : 
               null
