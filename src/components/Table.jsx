@@ -1,8 +1,9 @@
 import React from 'react'
+import VisibilitySensor from 'react-visibility-sensor'
 
 import Button from './Button'
 
-const Table = ({ list, onDismiss }) => (
+const Table = ({ list, onDismiss, onBottomVisible }) => (
     <div className="table">
         {list.map(item =>
             <div key={item.objectID} className="table-row">
@@ -27,6 +28,7 @@ const Table = ({ list, onDismiss }) => (
 
             </div>
         )}
+        <VisibilitySensor onChange={isVisible => isVisible ? onBottomVisible() : null} />
     </div>
 )
 

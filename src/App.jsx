@@ -5,6 +5,7 @@ import './styles/App.css'
 import Search from './components/Search'
 import Table from './components/Table'
 import { HACKERNEWS_API_PATH } from './constants/strings'
+import { HACKERNEWS_API_SEARCH_RESULT_COUNT } from './constants/numbers'
 
 class App extends Component {
   constructor(props) {
@@ -12,9 +13,8 @@ class App extends Component {
 
     this.state = {
       searchTerm: '',
-      result: {
-        hits: []
-      }
+      result: [],
+      page: 0
     }
 
     this.onSearchChange = this.onSearchChange.bind(this)
@@ -24,44 +24,39 @@ class App extends Component {
     this.handleHackerNewsFetch = this.handleHackerNewsFetch.bind(this)
   }
 
-  componentDidMount() {
-    this.handleHackerNewsFetch()
-  }
-
   onSearchChange(event) {
-    this.setState({ searchTerm: event.target.value })
+    this.setState({ searchTerm: event.target.value, page: 0 })
   }
 
   onSearchSubmit(event) {
     event.preventDefault()
-    this.handleHackerNewsFetch(this.state.searchTerm)
+    this.setState({ result: [] }, () => {
+      this.handleHackerNewsFetch(this.state.searchTerm)
+    })
   }
 
   onDismiss(id) {
     this.setState({
-      result: {
-        ...this.state.result,
-        hits: this.state.result.hits.filter(item => item.objectID !== id)
-      }
+      result: this.state.result.filter(item => item.objectID !== id)
     })
   }
 
-  setSearchNewsResult(result) {
-    this.setState({ result })
+  setSearchNewsResult(result, page) {
+    this.setState({ result: this.state.result.concat(result), page })
   }
 
   handleHackerNewsFetch() {
-    let { searchTerm } = this.state
+    let { searchTerm, page } = this.state
     if (searchTerm && searchTerm.length > 0) {
-      axios.get(`${HACKERNEWS_API_PATH}/search?query=${searchTerm}`)
+      axios.get(`${HACKERNEWS_API_PATH}/search?query=${searchTerm}&page=${page}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
       .then(res => {
-        this.setSearchNewsResult(res.data)
+        this.setSearchNewsResult(res.data.hits, ++page)
       })
       .catch(error => {
         console.log(error.response)
       })
     } else {
-      this.setSearchNewsResult(null)
+      this.setSearchNewsResult(null, 0)
     }
   }
 
@@ -79,10 +74,11 @@ class App extends Component {
           </Search>
 
           {
-            result && result.hits
+            result && result.length > 0
               ?
               <Table
-                list={result.hits}
+                list={result}
+                onBottomVisible={this.handleHackerNewsFetch}
                 onDismiss={this.onDismiss} />
               : 
               null
