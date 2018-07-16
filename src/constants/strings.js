@@ -1,0 +1,1 @@
+export const HACKERNEWS_API_PATH = 'https://hn.algolia.com/api/v1'
