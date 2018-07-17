@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 import axios from 'axios'
+
 import './styles/App.css'
 
 import Search from './components/Search'
@@ -27,6 +29,7 @@ class App extends Component {
   onSearchSubmit(event) {
     event.preventDefault()
     const { searchTerm, result } = this.state
+
     this.setState({
       searchKey: searchTerm
     }, () => {
@@ -38,6 +41,7 @@ class App extends Component {
 
   onDismiss(id) {
     const { result, searchKey } = this.state
+
     this.setState({
       result: {
         ...result,
@@ -80,10 +84,13 @@ class App extends Component {
     if (searchKey && searchKey.length > 0) {
       axios.get(`${HACKERNEWS_API_PATH}/search?query=${searchKey}&page=${result[searchKey] ? ++result[searchKey].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
         .then(res => {
-          this.setSearchNewsResult(res.data)
+          if (!result[searchKey] || res.data.page === result[searchKey].page) {
+            this.setSearchNewsResult(res.data)
+          }
         })
         .catch(error => {
-          console.log(error.response)
+          console.log(error)
+          toast.error('Something went wrong...')
         })
     } else {
       this.setSearchNewsResult({})
@@ -115,7 +122,8 @@ class App extends Component {
               :
               null
           }
-
+          <ToastContainer
+            autoClose={5000} />
         </div>
       </div>
     )

@@ -1,7 +1,11 @@
 import React from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
+import { PulseLoader } from 'react-spinners'
+
+import '../styles/Table.css'
 
 import Button from './Button'
+import { primaryBlue } from '../constants/colors'
 
 const Table = ({ list, onDismiss, onBottomVisible, isAtEnd }) => (
     <div className="table">
@@ -28,9 +32,19 @@ const Table = ({ list, onDismiss, onBottomVisible, isAtEnd }) => (
 
             </div>
         )}
-        <VisibilitySensor
-            active={!isAtEnd}
-            onChange={isVisible => isVisible ? onBottomVisible() : null} />
+        
+        <div className="loading-spinner-wrapper">
+            <VisibilitySensor
+                active={!isAtEnd}
+                onChange={isVisible => isVisible ? onBottomVisible() : null}>
+                {
+                    isAtEnd ?
+                        <p>All results are loaded</p>
+                        :
+                        <PulseLoader color={primaryBlue} />
+                }
+            </VisibilitySensor>
+        </div>
     </div>
 )
 
