@@ -1,6 +1,7 @@
 import React from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
 import { PulseLoader } from 'react-spinners'
+import PropTypes from 'prop-types'
 
 import '../styles/Table.css'
 
@@ -32,7 +33,7 @@ const Table = ({ list, onDismiss, onBottomVisible, isAtEnd }) => (
 
             </div>
         )}
-        
+
         <div className="loading-spinner-wrapper">
             <VisibilitySensor
                 active={!isAtEnd}
@@ -47,5 +48,12 @@ const Table = ({ list, onDismiss, onBottomVisible, isAtEnd }) => (
         </div>
     </div>
 )
+
+Table.propTypes = {
+    list: PropTypes.array.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onBottomVisible: PropTypes.func.isRequired,
+    isAtEnd: PropTypes.bool.isRequired
+}
 
 export default Table

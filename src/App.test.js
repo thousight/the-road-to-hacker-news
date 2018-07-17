@@ -31,15 +31,22 @@ describe('App', () => {
 
 describe('Search', () => {
 
+  const props = {
+    value: '',
+    onChange: () => {},
+    onSubmit: () => {},
+    children: ''
+  }
+
   it('renders without crashing', () => {
     const div = document.createElement('div')
-    ReactDOM.render(<Search>Search</Search>, div)
+    ReactDOM.render(<Search {...props} >Search</Search>, div)
     ReactDOM.unmountComponentAtNode(div)
   })
 
   test('has a valid snapshot', () => {
     const component = renderer.create(
-      <Search>Search</Search>
+      <Search {...props} >Search</Search>
     )
     let tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -49,15 +56,21 @@ describe('Search', () => {
 
 describe('Button', () => {
 
+  const props = {
+    onClick: () => {},
+    className: '',
+    children: ''
+  }
+
   it('renders without crashing', () => {
     const div = document.createElement('div')
-    ReactDOM.render(<Button>Give Me More</Button>, div)
+    ReactDOM.render(<Button {...props} >Give Me More</Button>, div)
     ReactDOM.unmountComponentAtNode(div)
   })
 
   test('has a valid snapshot', () => {
     const component = renderer.create(
-      <Button>Give Me More</Button>
+      <Button {...props} >Give Me More</Button>
     )
     let tree = component.toJSON()
     expect(tree).toMatchSnapshot()
