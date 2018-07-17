@@ -8,6 +8,7 @@
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
     "react-spinners": "^0.3.2",
+    "react-test-renderer": "^16.4.1",
     "react-toastify": "^4.1.0",
     "react-visibility-sensor": "^3.11.0"
   },
