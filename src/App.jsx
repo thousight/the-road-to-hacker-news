@@ -14,10 +14,12 @@ class App extends Component {
   state = {
     searchTerm: '',
     searchKey: '',
-    result: {}
+    result: {},
+    sortKey: 'DEFAULT'
   }
   onSearchChange = this.onSearchChange.bind(this)
   onSearchSubmit = this.onSearchSubmit.bind(this)
+  onSort = this.onSort.bind(this)
   onDismiss = this.onDismiss.bind(this)
   setSearchNewsResult = this.setSearchNewsResult.bind(this)
   handleHackerNewsFetch = this.handleHackerNewsFetch.bind(this)
@@ -37,6 +39,10 @@ class App extends Component {
         this.handleHackerNewsFetch()
       }
     })
+  }
+
+  onSort(sortKey) {
+    this.setState({ sortKey });
   }
 
   onDismiss(id) {
@@ -98,7 +104,7 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm, searchKey, result } = this.state
+    const { searchTerm, searchKey, result, sortKey } = this.state
     let data = result[searchKey]
 
     return (
@@ -118,6 +124,8 @@ class App extends Component {
                 list={data.hits}
                 onBottomVisible={this.handleHackerNewsFetch}
                 isAtEnd={data.nbPages <= 0 || (data.nbPages - 1) === data.page}
+                sortKey={sortKey}
+                onSort={this.onSort}
                 onDismiss={this.onDismiss} />
               :
               null
