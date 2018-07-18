@@ -8,7 +8,7 @@ import Search from "./components/Search"
 import Table from "./components/Table"
 import {
   HACKERNEWS_API_PATH,
-  HACKERNEWS_API_SEARCH_RELEVANCE
+  HACKERNEWS_API_SEARCH_RECENT
 } from "./constants/strings"
 import { HACKERNEWS_API_SEARCH_RESULT_COUNT } from "./constants/numbers"
 import Logo from './img/Logo.svg'
@@ -17,7 +17,7 @@ class App extends Component {
   state = {
     searchTerm: '',
     searchKey: '',
-    searchBy: HACKERNEWS_API_SEARCH_RELEVANCE,
+    searchBy: HACKERNEWS_API_SEARCH_RECENT,
     result: {},
     isLoading: false
   }

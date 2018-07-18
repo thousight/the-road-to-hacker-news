@@ -23,13 +23,13 @@ class Search extends Component {
       <form className="search-group-center" onSubmit={onSubmit}>
         <Input.Group compact >
           <Select
-            defaultValue={HACKERNEWS_API_SEARCH_RELEVANCE}
+            defaultValue={HACKERNEWS_API_SEARCH_RECENT}
             onChange={value => onSortSelect(value)} >
-            <Select.Option value={HACKERNEWS_API_SEARCH_RELEVANCE} >
-              Relevance
-            </Select.Option>
             <Select.Option value={HACKERNEWS_API_SEARCH_RECENT} >
               Recent
+            </Select.Option>
+            <Select.Option value={HACKERNEWS_API_SEARCH_RELEVANCE} >
+              Relevance
             </Select.Option>
           </Select>
           <Input className="search-input"
