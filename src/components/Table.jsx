@@ -15,13 +15,13 @@ class ResultsTable extends Component {
       title: this.renderHeaderTitle('Title', 'file-text'),
       dataIndex: 'title',
       key: 'title',
-      width: '40%',
+      width: '45%',
       render: (title, item) => <a href={item.url} target="_blank">{title}</a>
     }, {
       title: this.renderHeaderTitle('Author', 'user'),
       dataIndex: 'author',
       key: 'author',
-      width: '20%'
+      width: '25%'
     }, {
       title: this.renderHeaderTitle('Points', 'like-o'),
       dataIndex: 'points',

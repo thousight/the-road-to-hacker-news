@@ -14,13 +14,13 @@
   width: 100%;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 991px) {
   .table-header span {
     display: none;
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575px) {
   .table-header {
     text-align: center;
   }

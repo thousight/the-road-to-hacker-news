@@ -10,3 +10,9 @@ body {
 .logo {
   width: 32px;
 }
+
+@media screen and (max-width: 575px) {
+  .ant-layout-header {
+    padding: 0 3%;
+  }
+}

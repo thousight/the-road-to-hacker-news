@@ -151,7 +151,7 @@ class App extends Component {
             <Col xs={2} md={4}>
               <img className="logo" src={Logo} alt="Logo" />
             </Col>
-            <Col xs={20} md={16}>
+            <Col xs={22} sm={20} md={16}>
               <Search
                 value={searchTerm}
                 isLoading={isLoading}
