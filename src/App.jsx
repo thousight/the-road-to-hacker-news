@@ -15,8 +15,8 @@ import Logo from './img/Logo.svg'
 
 class App extends Component {
   state = {
-    searchTerm: "",
-    searchKey: "",
+    searchTerm: '',
+    searchKey: '',
     searchBy: HACKERNEWS_API_SEARCH_RELEVANCE,
     result: {},
     isLoading: false
@@ -27,6 +27,10 @@ class App extends Component {
   onDismiss = this.onDismiss.bind(this)
   setSearchNewsResult = this.setSearchNewsResult.bind(this)
   handleHackerNewsFetch = this.handleHackerNewsFetch.bind(this)
+
+  componentDidMount() {
+    this.handleHackerNewsFetch()
+  }
 
   onSearchChange(event) {
     this.setState({ searchTerm: event.target.value })
@@ -114,29 +118,25 @@ class App extends Component {
     const { searchKey, result, searchBy } = this.state
     const key = searchBy + searchKey
 
-    if (searchKey && searchKey.length > 0) {
-      this.setState({ isLoading: true }, () => {
-        axios.get(`${HACKERNEWS_API_PATH}${searchBy}?query=${searchKey}&page=${result[key] ? ++result[key].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
-          .then(res => {
-            if (!result[key] || res.data.page === result[key].page) {
-              this.setSearchNewsResult(res.data)
-            }
-            this.setState({ isLoading: false })
+    this.setState({ isLoading: true }, () => {
+      axios.get(`${HACKERNEWS_API_PATH}${searchBy}?query=${searchKey}&page=${result[key] ? ++result[key].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
+        .then(res => {
+          if (!result[key] || res.data.page === result[key].page) {
+            this.setSearchNewsResult(res.data)
+          }
+          this.setState({ isLoading: false })
+        })
+        .catch(error => {
+          console.log(error)
+          notification.error({
+            message: "Something wrong happened",
+            description: error.message
+              ? error.message
+              : "Please check the console for the error",
+            duration: 3
           })
-          .catch(error => {
-            console.log(error)
-            notification.error({
-              message: "Something wrong happened",
-              description: error.message
-                ? error.message
-                : "Please check the console for the error",
-              duration: 3
-            })
-          })
-      })
-    } else {
-      this.setSearchNewsResult({})
-    }
+        })
+    })
   }
 
   render() {
