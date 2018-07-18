@@ -17,8 +17,9 @@ class App extends Component {
   state = {
     searchTerm: "",
     searchKey: "",
+    searchBy: HACKERNEWS_API_SEARCH_RELEVANCE,
     result: {},
-    searchBy: HACKERNEWS_API_SEARCH_RELEVANCE
+    isLoading: false
   }
   onSearchChange = this.onSearchChange.bind(this)
   onSearchSubmit = this.onSearchSubmit.bind(this)
@@ -114,29 +115,32 @@ class App extends Component {
     const key = searchBy + searchKey
 
     if (searchKey && searchKey.length > 0) {
-      axios.get(`${HACKERNEWS_API_PATH}${searchBy}?query=${searchKey}&page=${result[key] ? ++result[key].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
-        .then(res => {
-          if (!result[key] || res.data.page === result[key].page) {
-            this.setSearchNewsResult(res.data)
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          notification.error({
-            message: "Something wrong happened",
-            description: error.message
-              ? error.message
-              : "Please check the console for the error",
-            duration: 3
+      this.setState({ isLoading: true }, () => {
+        axios.get(`${HACKERNEWS_API_PATH}${searchBy}?query=${searchKey}&page=${result[key] ? ++result[key].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
+          .then(res => {
+            if (!result[key] || res.data.page === result[key].page) {
+              this.setSearchNewsResult(res.data)
+            }
+            this.setState({ isLoading: false })
           })
-        })
+          .catch(error => {
+            console.log(error)
+            notification.error({
+              message: "Something wrong happened",
+              description: error.message
+                ? error.message
+                : "Please check the console for the error",
+              duration: 3
+            })
+          })
+      })
     } else {
       this.setSearchNewsResult({})
     }
   }
 
   render() {
-    const { searchTerm, searchKey, result, searchBy } = this.state
+    const { searchTerm, searchKey, result, searchBy, isLoading } = this.state
     const data = result[searchBy + searchKey]
 
     return (
@@ -150,6 +154,7 @@ class App extends Component {
             <Col xs={20} md={16}>
               <Search
                 value={searchTerm}
+                isLoading={isLoading}
                 onSortSelect={this.onSortSelect}
                 onSubmit={this.onSearchSubmit}
                 onChange={this.onSearchChange} />
@@ -158,16 +163,20 @@ class App extends Component {
         </Layout.Header>
 
         <Layout.Content>
-          {
-            data && data.hits ?
-              <Table list={data.hits}
-                onBottomVisible={this.handleHackerNewsFetch}
-                isAtEnd={data.nbPages <= 0 || data.nbPages - 1 === data.page}
-                searchBy={searchBy}
-                onDismiss={this.onDismiss} />
-              :
-              null
-          }
+          <Row>
+            <Col xs={24}>
+              {
+                data && data.hits ?
+                  <Table list={data.hits}
+                    onBottomVisible={this.handleHackerNewsFetch}
+                    isAtEnd={data.nbPages <= 0 || data.nbPages - 1 === data.page}
+                    searchBy={searchBy}
+                    onDismiss={this.onDismiss} />
+                  :
+                  null
+              }
+            </Col>
+          </Row>
         </Layout.Content>
       </Layout>
     )

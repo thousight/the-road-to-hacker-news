@@ -17,7 +17,7 @@ class Search extends Component {
   }
 
   render() {
-    const { value, onSortSelect, onChange, onSubmit } = this.props
+    const { value, isLoading, onSortSelect, onChange, onSubmit } = this.props
 
     return (
       <form className="search-group-center" onSubmit={onSubmit}>
@@ -38,7 +38,7 @@ class Search extends Component {
             onChange={onChange}
             placeholder="Search with Hacker News powered by Algolia"
             ref={node => (this.input = node)} />
-          <Button icon="search" type="primary" />
+          <Button icon="search" type="primary" onClick={onSubmit} loading={isLoading} />
         </Input.Group>
       </form>
     )
@@ -47,6 +47,7 @@ class Search extends Component {
 
 Search.propTypes = {
   value: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   onSortSelect: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
