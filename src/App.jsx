@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import axios from "axios"
+import { uniqBy } from 'lodash'
 import { Layout, Row, Col, notification, BackTop } from "antd"
 
 import "./styles/App.css"
@@ -99,10 +100,10 @@ class App extends Component {
           ...this.state.result,
           [key]: {
             ...result,
-            hits: this.state.result[key].hits.concat(result.hits)
+            hits: uniqBy(this.state.result[key].hits.concat(result.hits), 'objectID')
           }
         }
-      })
+      }, () => this.setState({ isLoading: false }))
     } else {
       // If this is a new search key
       this.setState({
@@ -110,7 +111,7 @@ class App extends Component {
           ...this.state.result,
           [key]: result
         }
-      })
+      }, () => this.setState({ isLoading: false }))
     }
   }
 
@@ -124,7 +125,6 @@ class App extends Component {
           if (!result[key] || res.data.page === result[key].page) {
             this.setSearchNewsResult(res.data)
           }
-          this.setState({ isLoading: false })
         })
         .catch(error => {
           console.log(error)
