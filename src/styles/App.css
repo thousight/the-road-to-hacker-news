@@ -1,9 +1,8 @@
-@import '~antd/dist/antd.css';
-
-.page {
-  margin: 20px;
+.ant-layout-header {
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 8px #f0f1f2;
 }
 
-.interactions {
-  text-align: center;
+.logo {
+  width: 32px;
 }

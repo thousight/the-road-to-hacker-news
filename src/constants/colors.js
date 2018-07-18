@@ -1,1 +1,2 @@
-export const primaryBlue = '#2196F3'
+export const primaryBlue = '#1890FF'
+export const primaryOrange = '#F07530'

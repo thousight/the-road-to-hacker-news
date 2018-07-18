@@ -1,0 +1,8 @@
+.search-group-center {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.search-group-center input.search-input {
+    width: calc(100% - 145px);
+}

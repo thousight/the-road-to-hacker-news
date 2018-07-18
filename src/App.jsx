@@ -1,25 +1,28 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import { notification } from 'antd'
+import React, { Component } from "react"
+import axios from "axios"
+import { Layout, Row, Col, notification, BackTop } from "antd"
 
-import './styles/App.css'
+import "./styles/App.css"
 
-import Search from './components/Search'
-import Table from './components/Table'
-import { HACKERNEWS_API_PATH } from './constants/strings'
-import { HACKERNEWS_API_SEARCH_RESULT_COUNT } from './constants/numbers'
+import Search from "./components/Search"
+import Table from "./components/Table"
+import {
+  HACKERNEWS_API_PATH,
+  HACKERNEWS_API_SEARCH_RELEVANCE
+} from "./constants/strings"
+import { HACKERNEWS_API_SEARCH_RESULT_COUNT } from "./constants/numbers"
+import Logo from './img/Logo.svg'
 
 class App extends Component {
-
   state = {
-    searchTerm: '',
-    searchKey: '',
+    searchTerm: "",
+    searchKey: "",
     result: {},
-    sortKey: 'DEFAULT'
+    searchBy: HACKERNEWS_API_SEARCH_RELEVANCE
   }
   onSearchChange = this.onSearchChange.bind(this)
   onSearchSubmit = this.onSearchSubmit.bind(this)
-  onSort = this.onSort.bind(this)
+  onSortSelect = this.onSortSelect.bind(this)
   onDismiss = this.onDismiss.bind(this)
   setSearchNewsResult = this.setSearchNewsResult.bind(this)
   handleHackerNewsFetch = this.handleHackerNewsFetch.bind(this)
@@ -30,52 +33,68 @@ class App extends Component {
 
   onSearchSubmit(event) {
     event.preventDefault()
-    const { searchTerm, result } = this.state
+    const { searchTerm, result, searchBy } = this.state
+    const key = searchBy + searchTerm
 
-    this.setState({
-      searchKey: searchTerm
-    }, () => {
-      if (!result[searchTerm]) {
+    this.setState(
+      {
+        searchKey: searchTerm
+      },
+      () => {
+        if (!result[key]) {
+          this.handleHackerNewsFetch()
+        }
+      }
+    )
+  }
+
+  onSortSelect(searchBy) {
+    const { searchKey, result } = this.state
+    const key = searchBy + searchKey
+
+    this.setState({ searchBy }, () => {
+      if (!result[key]) {
         this.handleHackerNewsFetch()
       }
     })
   }
 
-  onSort(sortKey) {
-    this.setState({ sortKey });
-  }
-
   onDismiss(id) {
-    const { result, searchKey } = this.state
+    const { result, searchKey, searchBy } = this.state
+    const key = searchBy + searchKey
 
-    this.setState({
-      result: {
-        ...result,
-        [searchKey]: {
-          ...result[searchKey],
-          hits: result[searchKey].hits.filter(item => item.objectID !== id)
+    this.setState(
+      {
+        result: {
+          ...result,
+          [key]: {
+            ...result[key],
+            hits: result[key].hits.filter(item => item.objectID !== id)
+          }
         }
+      },
+      () => {
+        notification.warning({
+          message: "Dismiss success",
+          description: `You've dismissed a message from the list.`,
+          duration: 2.5
+        })
       }
-    }, () => {
-      notification.warning({
-        message: 'Dismiss success',
-        description: `You've dismissed a message from the list.`,
-        duration: 2.5
-      })
-    })
+    )
   }
 
   setSearchNewsResult(result) {
-    const { searchKey } = this.state
+    const { searchKey, searchBy } = this.state
+    const key = searchBy + searchKey
 
-    if (this.state.result[searchKey]) {
+    if (this.state.result[key]) {
       // If searchKey already exist
       this.setState({
         result: {
           ...this.state.result,
-          [this.state.searchKey]: {
+          [key]: {
             ...result,
-            hits: this.state.result[this.state.searchKey].hits.concat(result.hits),
+            hits: this.state.result[key].hits.concat(result.hits)
           }
         }
       })
@@ -84,27 +103,30 @@ class App extends Component {
       this.setState({
         result: {
           ...this.state.result,
-          [this.state.searchKey]: result
+          [key]: result
         }
       })
     }
   }
 
   handleHackerNewsFetch() {
-    const { searchKey, result } = this.state
+    const { searchKey, result, searchBy } = this.state
+    const key = searchBy + searchKey
 
     if (searchKey && searchKey.length > 0) {
-      axios.get(`${HACKERNEWS_API_PATH}/search?query=${searchKey}&page=${result[searchKey] ? ++result[searchKey].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
+      axios.get(`${HACKERNEWS_API_PATH}${searchBy}?query=${searchKey}&page=${result[key] ? ++result[key].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
         .then(res => {
-          if (!result[searchKey] || res.data.page === result[searchKey].page) {
+          if (!result[key] || res.data.page === result[key].page) {
             this.setSearchNewsResult(res.data)
           }
         })
         .catch(error => {
           console.log(error)
           notification.error({
-            message: 'Something wrong happened',
-            description: error.message ? error.message : 'Please check the console for the error',
+            message: "Something wrong happened",
+            description: error.message
+              ? error.message
+              : "Please check the console for the error",
             duration: 3
           })
         })
@@ -114,34 +136,40 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm, searchKey, result, sortKey } = this.state
-    let data = result[searchKey]
+    const { searchTerm, searchKey, result, searchBy } = this.state
+    const data = result[searchBy + searchKey]
 
     return (
-      <div className="page">
-        <div className="interactions">
-          <Search
-            value={searchTerm}
-            onSubmit={this.onSearchSubmit}
-            onChange={this.onSearchChange}>
-            Search
-          </Search>
+      <Layout className="page">
+        <Layout.Header>
+          <BackTop />
+          <Row>
+            <Col xs={4}>
+              <img className="logo" src={Logo} alt="Logo" />
+            </Col>
+            <Col xs={20} md={16}>
+              <Search
+                value={searchTerm}
+                onSortSelect={this.onSortSelect}
+                onSubmit={this.onSearchSubmit}
+                onChange={this.onSearchChange} />
+            </Col>
+          </Row>
+        </Layout.Header>
 
+        <Layout.Content>
           {
-            result && data && data.hits
-              ?
-              <Table
-                list={data.hits}
+            data && data.hits ?
+              <Table list={data.hits}
                 onBottomVisible={this.handleHackerNewsFetch}
-                isAtEnd={data.nbPages <= 0 || (data.nbPages - 1) === data.page}
-                sortKey={sortKey}
-                onSort={this.onSort}
+                isAtEnd={data.nbPages <= 0 || data.nbPages - 1 === data.page}
+                searchBy={searchBy}
                 onDismiss={this.onDismiss} />
               :
               null
           }
-        </div>
-      </div>
+        </Layout.Content>
+      </Layout>
     )
   }
 }
