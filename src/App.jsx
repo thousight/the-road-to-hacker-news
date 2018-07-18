@@ -119,7 +119,7 @@ class App extends Component {
     const key = searchBy + searchKey
 
     this.setState({ isLoading: true }, () => {
-      axios.get(`${HACKERNEWS_API_PATH}${searchBy}?query=${searchKey}&page=${result[key] ? ++result[key].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}`)
+      axios.get(`${HACKERNEWS_API_PATH}${searchBy}?query=${searchKey}&page=${result[key] ? ++result[key].page : 0}&hitsPerPage=${HACKERNEWS_API_SEARCH_RESULT_COUNT}&tags=story`)
         .then(res => {
           if (!result[key] || res.data.page === result[key].page) {
             this.setSearchNewsResult(res.data)
