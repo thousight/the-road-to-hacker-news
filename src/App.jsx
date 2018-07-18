@@ -148,7 +148,7 @@ class App extends Component {
         <Layout.Header>
           <BackTop />
           <Row>
-            <Col xs={4}>
+            <Col xs={2} md={4}>
               <img className="logo" src={Logo} alt="Logo" />
             </Col>
             <Col xs={20} md={16}>
@@ -170,8 +170,7 @@ class App extends Component {
                   <Table list={data.hits}
                     onBottomVisible={this.handleHackerNewsFetch}
                     isAtEnd={data.nbPages <= 0 || data.nbPages - 1 === data.page}
-                    searchBy={searchBy}
-                    onDismiss={this.onDismiss} />
+                    searchBy={searchBy} />
                   :
                   null
               }

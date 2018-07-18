@@ -6,38 +6,34 @@ import { Table, Icon } from "antd"
 
 import "../styles/Table.css"
 
-import DismissButton from "./DismissButton"
 import { primaryOrange } from "../constants/colors"
 
 class ResultsTable extends Component {
 
-  columns = [{
-    title: this.renderHeaderTitle('Title', 'file-text'),
-    dataIndex: 'title',
-    key: 'title',
-    width: '40%',
-    render: (title, item) => <a href={item.url} target="_blank">{title}</a>
-  }, {
-    title: this.renderHeaderTitle('Author', 'user'),
-    dataIndex: 'author',
-    key: 'author',
-    width: '20%'
-  }, {
-    title: this.renderHeaderTitle('Points', 'like-o'),
-    dataIndex: 'points',
-    key: 'points',
-    width: '15%'
-  }, {
-    title: this.renderHeaderTitle('Comments', 'message'),
-    dataIndex: 'num_comments',
-    key: 'num_comments',
-    width: '15%'
-  }, {
-    title: this.renderHeaderTitle('Action', 'ellipsis'),
-    key: 'objectID',
-    width: '10%',
-    render: item => <DismissButton onClick={() => this.props.onDismiss(item.objectID)} />
-  }]
+  columns = [
+    {
+      title: this.renderHeaderTitle('Title', 'file-text'),
+      dataIndex: 'title',
+      key: 'title',
+      width: '40%',
+      render: (title, item) => <a href={item.url} target="_blank">{title}</a>
+    }, {
+      title: this.renderHeaderTitle('Author', 'user'),
+      dataIndex: 'author',
+      key: 'author',
+      width: '20%'
+    }, {
+      title: this.renderHeaderTitle('Points', 'like-o'),
+      dataIndex: 'points',
+      key: 'points',
+      width: '15%'
+    }, {
+      title: this.renderHeaderTitle('Comments', 'message'),
+      dataIndex: 'num_comments',
+      key: 'num_comments',
+      width: '15%'
+    }
+  ]
 
   renderHeaderTitle(title, icon) {
     return (
@@ -77,7 +73,6 @@ class ResultsTable extends Component {
 
 ResultsTable.propTypes = {
   list: PropTypes.array.isRequired,
-  onDismiss: PropTypes.func.isRequired,
   onBottomVisible: PropTypes.func.isRequired,
   isAtEnd: PropTypes.bool.isRequired
 }

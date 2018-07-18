@@ -1,5 +1,5 @@
-# The Road to Learn React follow through
-Going through [The Road to Learn React](https://github.com/the-road-to-learn-react/the-road-to-learn-react) and get the hands on code stored at this repo, deployed to [Heroku](https://the-road-to-hacker-news.herokuapp.com/)
+# The Road to Hacker News
+Going through [The Road to Learn React](https://github.com/the-road-to-learn-react/the-road-to-learn-react) and get the hands on code stored at this repo, deployed to [Heroku](https://the-road-to-hacker-news.herokuapp.com/). I added a lot of my own thoughts and I did a lot of things different to what the tutorial taught me. The reason is not because I don't know how to do what the tutorial teaches me, I do know, and probably I am very familiar to what it teaches me already. The reason is because I treated this project as my own product, so I want things to make sense as a website or a product.
 
 ### Things I do differently from the book
 - The book kinda put everything together into App.jsx, while I divided up the components into files and put some strings, numbers, and colors into singletons
@@ -7,4 +7,5 @@ Going through [The Road to Learn React](https://github.com/the-road-to-learn-rea
 - In the pagination API search section of the book, it uses a button to fetch more items, while I used [react-visibility-sensor](https://github.com/joshwnj/react-visibility-sensor) to enable infinite scroll instead
 - I use Notification component from [Ant Design](https://ant.design/components/notification/) to notify user when error happens instead of dismissing the entire result list in the tutorial
 - The tutorial teaches us to sort hits in front end, it's useful in other scenarios but I personally think it's a bad idea in this case because it can be inconsistent as the API fetches new data. For example, I now have a sorted list by title, and the list ends with an article which its title starting with a character 'z', but when I fetch new data, the API call is not configured to be sorted, therefore the results I fetched will include titles starting with other charcters, and the article with title starts with 'z' will most likely still be at the end of the list, while other new results will be on the upper positions of the list, causing the user to be less likely to see them because he/she scrolled down for new data but the new entries went up instead. So what I do differently, in this case, is configure sorting on the API call instead.
+- I decided to get rid of the dismiss functionality because, like the previous point, not a practical function for this API.
 - Added [Ant Design](https://ant.design/) and LESS configurations to Create React App for theming Ant Design, as well as some responsive designs with Ant Design's Layout and Grid.
