@@ -3,7 +3,7 @@ import axios from "axios"
 import { uniqBy } from 'lodash'
 import { Layout, Row, Col, notification, BackTop } from "antd"
 
-import "./styles/App.css"
+import "./styles/App.less"
 
 import Search from "./components/Search"
 import Table from "./components/Table"

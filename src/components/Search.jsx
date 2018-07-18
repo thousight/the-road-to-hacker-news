@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Button, Select, Input } from "antd"
 
-import "../styles/Search.css"
+import "../styles/Search.less"
 
 import {
   HACKERNEWS_API_SEARCH_RELEVANCE,

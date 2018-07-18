@@ -4,7 +4,7 @@ import { PulseLoader } from "react-spinners"
 import PropTypes from "prop-types"
 import { Table, Icon } from "antd"
 
-import "../styles/Table.css"
+import "../styles/Table.less"
 
 import { primaryOrange } from "../constants/colors"
 
