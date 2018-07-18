@@ -2,10 +2,11 @@ import React from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
 import { PulseLoader } from 'react-spinners'
 import PropTypes from 'prop-types'
+import { Icon } from 'antd'
 
 import '../styles/Table.css'
 
-import Button from './Button'
+import DismissButton from './DismissButton'
 import { primaryBlue } from '../constants/colors'
 
 const Table = ({ list, onDismiss, onBottomVisible, isAtEnd }) => (
@@ -25,10 +26,9 @@ const Table = ({ list, onDismiss, onBottomVisible, isAtEnd }) => (
                     {item.points}
                 </span>
                 <span style={{ width: '10%' }}>
-                    <Button onClick={() => onDismiss(item.objectID)}
-                        className="button-inline">
-                        Dismiss
-                        </Button>
+                    <DismissButton onClick={() => onDismiss(item.objectID)}>
+                        <Icon type="close" />
+                    </DismissButton>
                 </span>
 
             </div>

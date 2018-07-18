@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
 import axios from 'axios'
+import { notification } from 'antd'
 
 import './styles/App.css'
 
@@ -56,6 +56,12 @@ class App extends Component {
           hits: result[searchKey].hits.filter(item => item.objectID !== id)
         }
       }
+    }, () => {
+      notification.warning({
+        message: 'Dismiss success',
+        description: `You've dismissed a message from the list.`,
+        duration: 2.5
+      })
     })
   }
 
@@ -96,7 +102,11 @@ class App extends Component {
         })
         .catch(error => {
           console.log(error)
-          toast.error('Something went wrong...')
+          notification.error({
+            message: 'Something wrong happened',
+            description: error.message ? error.message : 'Please check the console for the error',
+            duration: 3
+          })
         })
     } else {
       this.setSearchNewsResult({})
@@ -130,8 +140,6 @@ class App extends Component {
               :
               null
           }
-          <ToastContainer
-            autoClose={5000} />
         </div>
       </div>
     )

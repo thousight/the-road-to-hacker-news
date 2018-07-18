@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.7.0",
     "axios": "^0.18.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
     "react-spinners": "^0.3.2",
-    "react-toastify": "^4.1.0",
     "react-visibility-sensor": "^3.11.0"
   },
   "scripts": {

@@ -5,7 +5,7 @@ import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import App from './App'
-import Button from './components/Button'
+import DismissButton from './components/DismissButton'
 import Search from './components/Search'
 import Table from './components/Table'
 
@@ -54,7 +54,7 @@ describe('Search', () => {
 
 })
 
-describe('Button', () => {
+describe('DismissButton', () => {
 
   const props = {
     onClick: () => {},
@@ -64,13 +64,13 @@ describe('Button', () => {
 
   it('renders without crashing', () => {
     const div = document.createElement('div')
-    ReactDOM.render(<Button {...props} >Give Me More</Button>, div)
+    ReactDOM.render(<DismissButton {...props} >Give Me More</DismissButton>, div)
     ReactDOM.unmountComponentAtNode(div)
   })
 
   test('has a valid snapshot', () => {
     const component = renderer.create(
-      <Button {...props} >Give Me More</Button>
+      <DismissButton {...props} >Give Me More</DismissButton>
     )
     let tree = component.toJSON()
     expect(tree).toMatchSnapshot()
