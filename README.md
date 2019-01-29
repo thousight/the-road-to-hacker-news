@@ -1,4 +1,7 @@
 # The Road to Hacker News
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/thousight/the-road-to-hacker-news.svg)](https://greenkeeper.io/)
+
 Going through [The Road to Learn React](https://github.com/the-road-to-learn-react/the-road-to-learn-react) and get the hands on code stored at this repo, deployed to [Heroku](https://the-road-to-hacker-news.herokuapp.com/). I added a lot of my own thoughts and I did a lot of things different to what the tutorial taught me. The reason is not because I don't know how to do what the tutorial teaches me, I do know, and probably I am very familiar to what it teaches me already. The reason is because I treated this project as my own product, so I want things to make sense as a website or a product.
 
 ### Things I do differently from the book
